@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Betting - BetWise</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('t1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        h1 {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .matches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+        .match-card {
+            background: rgba(31, 41, 55, 0.9);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .odds {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .odds span {
+            background: #1e40af;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.4rem;
+            font-weight: bold;
+        }
+        #timer {
+            font-size: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        #timer-container {
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>BetWise Tennis</h2>
+        <a href="index.html" class="btn">Home</a>
+    </header>
+
+    <h1>Upcoming Tennis Matches</h1>
+
+    <div class="matches">
+        <div class="match-card">
+            <h3>Djokovic vs Alcaraz</h3>
+            <p>ATP Masters | April 20, 2025</p>
+            <div class="odds">
+                <span>Djokovic: 2.00</span>
+                <span>Draw: 3.50</span>
+                <span>Alcaraz: 1.90</span>
+            </div>
+            <button class="btn">Place Bet</button>
+        </div>
+
+        <div class="match-card">
+            <h3>Federer vs Nadal</h3>
+            <p>Wimbledon | May 5, 2025</p>
+            <div class="odds">
+                <span>Federer: 2.50</span>
+                <span>Draw: 3.10</span>
+                <span>Nadal: 2.80</span>
+            </div>
+            <button class="btn">Place Bet</button>
+        </div>
+    </div>
+
+    <!-- Timer Section -->
+    <div id="timer-container">
+        <label for="timeInput">Set Time for Betting Session (Max 5 Minutes):</label><br>
+        <input type="number" id="timeInput" placeholder="Minutes" min="1" max="5">
+        <button class="btn" onclick="startTimer()">Start Timer</button>
+    </div>
+
+    <div id="timer"></div>
+
+    <h4 align="center">
+        <a href="about.html" class="btn">ABOUT US</a>
+    </h4>
+
+    <script>
+        let timer;
+        let countdown;
+        let timeRemaining;
+
+        // Function to start the timer
+        function startTimer() {
+            let time = document.getElementById("timeInput").value;
+
+            if (time < 1 || time > 5) {
+                alert("Do not let the addiction win");
+                return;
+            }
+
+            timeRemaining = time * 60;
+            displayTimer();
+
+            if (countdown) {
+                clearInterval(countdown);
+            }
+
+            countdown = setInterval(function() {
+                timeRemaining--;
+                displayTimer();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    alert("Your betting time is up!");
+                }
+            }, 1000);
+        }
+
+        // Function to display the timer
+        function displayTimer() {
+            let minutes = Math.floor(timeRemaining / 60);
+            let seconds = timeRemaining % 60;
+
+            document.getElementById("timer").innerHTML = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        }
+    </script>
+</body>
+</html>

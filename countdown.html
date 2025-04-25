@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetWise - Session Timer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        header h1 {
+            font-size: 2rem;
+        }
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background: rgba(17, 24, 39, 0.8);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .timer {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn.stop {
+            background: red;
+        }
+        .input-time {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        .input-time input {
+            padding: 0.5rem;
+            margin-right: 1rem;
+            width: 80px;
+            border-radius: 0.5rem;
+            border: none;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+            border-top: 1px solid #374151;
+            background: rgba(15, 23, 42, 0.9);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BetWise - Timer</h1>
+    </header>
+
+    <div class="timer-container">
+        <h1>Session Timer</h1>
+
+        <!-- Time Input Fields -->
+        <div class="input-time">
+            <input type="number" id="inputMinutes" placeholder="Minutes" min="0" max="60">
+            <input type="number" id="inputSeconds" placeholder="Seconds" min="0" max="59">
+        </div>
+
+        <div id="timer" class="timer">00:00</div>
+        <button id="startStopBtn" class="btn">Start Timer</button>
+        <button id="resetBtn" class="btn">Reset Timer</button>
+    </div>
+
+    <footer>
+        &copy; 2025 BetWise. Gamble responsibly.
+    </footer>
+
+    <script>
+        let timer;
+        let isRunning = false;
+        let seconds = 0;
+        let minutes = 0;
+
+        const timerDisplay = document.getElementById('timer');
+        const startStopBtn = document.getElementById('startStopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const inputMinutes = document.getElementById('inputMinutes');
+        const inputSeconds = document.getElementById('inputSeconds');
+
+        function updateTimerDisplay() {
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+            timerDisplay.textContent = `${formattedMinutes}:${formattedSeconds}`;
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (seconds === 0 && minutes === 0) {
+                    clearInterval(timer); // Stop timer when it reaches 0
+                    alert("Time's up!");
+                    return;
+                }
+
+                if (seconds === 0) {
+                    if (minutes > 0) {
+                        minutes--;
+                        seconds = 59;
+                    }
+                } else {
+                    seconds--;
+                }
+
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+        startStopBtn.addEventListener('click', () => {
+            // Get the time from input fields
+            minutes = parseInt(inputMinutes.value) || 0;
+            seconds = parseInt(inputSeconds.value) || 0;
+
+            // Update the display
+            updateTimerDisplay();
+
+            if (isRunning) {
+                stopTimer();
+                startStopBtn.textContent = 'Start Timer';
+            } else {
+                startTimer();
+                startStopBtn.textContent = 'Stop Timer';
+            }
+            isRunning = !isRunning;
+        });
+
+        resetBtn.addEventListener('click', () => {
+            stopTimer();
+            minutes = 0;
+            seconds = 0;
+            inputMinutes.value = '';
+            inputSeconds.value = '';
+            updateTimerDisplay();
+            startStopBtn.textContent = 'Start Timer';
+            isRunning = false;
+        });
+    </script>
+
+</body>
+</html>

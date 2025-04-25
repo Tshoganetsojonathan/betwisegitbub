@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetWise - Online Betting Platform</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: rgb(37, 31, 31);
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        header h1 {
+            font-size: 2rem;
+        }
+        .btn {
+            background: #3b82f6;
+            border: none;
+            color: rgb(140, 234, 239);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        .btn.secondary {
+            background: transparent;
+            border: 1px solid white;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 1rem;
+            margin: 2rem;
+        }
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+        }
+        .email-signup input {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            width: 250px;
+            margin-right: 0.5rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+        .card {
+            background: rgba(31, 41, 55, 0.9);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+        .card h3 {
+            margin: 1rem 0 0.5rem;
+            font-size: 1.25rem;
+        }
+        .card p {
+            color: #9ca3af;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: #ec0808;
+            border-top: 1px solid #374151;
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        /* Timer Styles */
+        #timer-container {
+            text-align: center;
+            margin-top: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+
+        #timer {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Input for session time */
+        #time-input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            width: 60px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BetWise</h1>
+        <div>
+            <button class="btn secondary">Login</button>
+            <button class="btn">Sign Up</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>Place Your Bets & Win Big!</h2>
+        <p>Join the most trusted betting platform and turn your predictions into profits.</p>
+        <div class="email-signup">
+            <input type="email" placeholder="Enter your email">
+            <button class="btn">Get Started</button>
+        </div>
+    </section>
+
+    <section class="features">
+        <section class="sports-sessions" style="padding: 2rem;">
+            <h2 style="text-align:center; margin-bottom: 1rem;">Betting Sessions</h2>
+            <div class="sessions" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="card">
+                    <h3>Football</h3>
+                    <p>Join exciting football betting markets: leagues, cups & live matches.</p>
+                    <a href="football.html"><button class="btn">Explore</button></a>
+                </div>
+                <div class="card">
+                    <h3>Rugby</h3>
+                    <p>Bet on global rugby matches — from Six Nations to World Cups.</p>
+                    <a href="rugby.html"><button class="btn">Explore</button></a>
+                </div>
+                <div class="card">
+                    <h3>Tennis</h3>
+                    <p>Place bets on ATP, WTA, and Grand Slam tournaments.</p>
+                    <a href="tennis.html"><button class="btn">Explore</button></a>
+                </div>
+                <div class="card">
+                    <h3>Cricket</h3>
+                    <p>Bet on IPL, Test Matches, ODIs, and T20 leagues worldwide.</p>
+                    <a href="cricket.html"><button class="btn">Explore</button></a>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Timer Section -->
+    <div id="timer-container">
+        <h3>Set Your Betting Session Time:</h3>
+        <input type="number" id="time-input" min="1" placeholder="Time in min" />
+        <button class="btn" id="start-timer">Start Timer</button>
+        <h3>Time Left for Session:</h3>
+        <div id="timer">00:00</div>
+    </div>
+
+    <div class="about-link" style="text-align:center; margin: 2rem 0;">
+        <a href="about.html" style="color: #3b82f6;">About Us</a>
+    </div>
+
+    <footer>
+        &copy; 2025 BetWise. Gamble responsibly.
+    </footer>
+
+    <script>
+        let sessionSeconds = 0;
+        let timerInterval;
+
+        // Function to start the timer based on user input
+        document.getElementById('start-timer').addEventListener('click', function() {
+            let timeInput = document.getElementById('time-input').value;
+            
+            if (timeInput && timeInput > 0 && timeInput <= 20) {
+                sessionSeconds = timeInput * 60;
+                startSessionTimer();
+            } else if (timeInput > 20) {
+                alert("Addiction kills. Please set a time less than or equal to 20 minutes.");
+            } else {
+                alert("Please enter a valid time.");
+            }
+        });
+
+        // Start the session timer
+        function startSessionTimer() {
+            let timerDisplay = document.getElementById("timer");
+            clearInterval(timerInterval); // Clear any existing intervals
+
+            timerInterval = setInterval(function() {
+                let minutes = Math.floor(sessionSeconds / 60);
+                let seconds = sessionSeconds % 60;
+                timerDisplay.innerHTML = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+                sessionSeconds--;
+
+                if (sessionSeconds < 0) {
+                    clearInterval(timerInterval);
+                    alert("Session has ended. Please take a break.");
+                }
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
